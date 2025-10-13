@@ -1,0 +1,87 @@
+# --- Fonts -------------------------------------------------------
+font-family = "JetBrainsMono Nerd Font Mono"
+font-family-bold = "JetBrainsMono Nerd Font Mono"
+font-family-italic = "JetBrainsMono Nerd Font Mono"
+font-family-bold-italic = "JetBrainsMono Nerd Font Mono"
+font-style-bold = "ExtraBold"
+font-style-italic = "Italic"
+font-style-bold-italic = "Bold Italic"
+font-size = 24
+adjust-font-baseline = 0
+
+# --- Cursor ------------------------------------------------------
+cursor-style = block
+cursor-text = #c1c3c4
+
+mouse-hide-while-typing = true
+mouse-scroll-multiplier = 2
+
+cursor-click-to-move = true
+
+# --- Colors ------------------------------------------------------
+# Required theme bits
+background = #1a1e20
+foreground = #c1c3c4
+cursor-color = #c1c3c4
+cursor-text = #1a1e20
+selection-background = #202d3a
+selection-foreground = #c1c3c4
+
+theme = synth
+window-colorspace = "display-p3"
+
+# 16-color core (from your Kitty scheme)
+palette = 0=#0D1117
+palette = 8=#202d3a
+
+palette = 1=#ff6865
+palette = 9=#ea770d
+
+palette = 2=#06ea61
+palette = 10=#06ea61
+
+palette = 3=#c9d364
+palette = 11=#e2be7d
+
+palette = 4=#03aeff
+palette = 12=#03aeff
+
+palette = 5=#ea5ce2
+palette = 13=#ff84ff
+
+palette = 6=#42fff9
+palette = 14=#42fff9
+
+palette = 7=#c1c3c4
+palette = 15=#f1f3f4
+
+font-feature=+calt
+
+# --- macOS / GTK bits -------------------------------------------
+macos-option-as-alt = true
+title = " "
+macos-titlebar-style = transparent
+window-subtitle = false
+macos-titlebar-proxy-icon = hidden
+
+shell-integration = zsh
+shell-integration-features = cursor, no-sudo, no-title
+
+
+# On GTK, tabs location (harmless elsewhere)
+gtk-tabs-location = top
+
+# --- Behavior ----------------------------------------------------
+confirm-close-surface = false
+window-inherit-working-directory = true
+window-new-tab-position = end
+
+# --- shaders ----------------------------------------------------
+# mouse trails
+custom-shader = ~/dots/ghostty/shaders/cursor_blaze.glsl
+
+# --- Keybindings -------------------------------------------------
+# New OS window (inherits CWD)
+keybind = ctrl+shift+n=new_window
+# New tab beside current
+keybind = ctrl+shift+t=new_tab

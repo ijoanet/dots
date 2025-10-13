@@ -1,0 +1,90 @@
+# General
+alias ss='source $HOME/.zshrc'
+alias cc="clear"
+alias ccc="clear &&"
+alias rf='rm * -Rf'
+alias q="exit"
+
+# Moving backwards
+alias ..='cd ..'
+alias ...="cd ../.."
+alias ....="cd ../../.."
+alias .....="cd ../../../.."
+
+# Networking
+alias used-ports='sudo lsof -i -P -n | grep "LISTEN"'
+
+# Config
+alias ed='cd $DOTS_DIR && nvim .'
+
+# Folders
+alias ls='eza --all --icons=always --grid'
+alias la='eza --long --all  --icons=always'
+alias lad='du -ah --max-depth 1'
+alias rf='rm -Rf'
+
+# TODO: Use tmux session to edit dots?
+alias dots='cd $DOTS_DIR'
+alias dwn='cd $HOME/Downloads'
+
+alias coding='cd $CODING_DIR'
+alias notes="nvim $CODING_DIR/notes"
+
+# APPS / PACKAGES
+alias n='tmux_goto_nvim'
+alias ya='tmux_goto_yazi'
+alias lg='tmux_goto_lazygit'
+# TODO: Add lazydocker tmux window
+alias ld='lazydocker'
+alias oc='tmux_goto_opencode'
+alias bat='bat --color=always --theme=base16 --style=header,grid --line-range :300'
+
+# Tmux
+alias t='tmux'
+alias ta='tat'
+alias tl='tmux ls'
+alias tk='tmux kill-session'
+alias tka='tmux kill-server'
+alias tn='tmux new -s'
+alias to='tmux attach'
+alias td='tmux detach'
+alias ts='tmux source-file ~/.tmux.conf'
+
+# Git
+alias gl='git clone'
+alias gb='git branch -a | grep -v "^\*" | fzf --height=20% --reverse --info=inline | xargs git checkout'
+alias gp='git fetch && git pull'
+alias gP='git push'
+alias gC='git clone'
+alias gc='git checkout'
+alias gf='git fetch'
+alias gcm="git checkout main && git fetch && git pull && git checkout -"
+alias gri="git checkout main && git fetch && git pull && git checkout - && git rebase -i origin/main"
+alias gri-master="git checkout master && git fetch && git pull && git checkout - && git rebase -i origin/master"
+
+# Docker
+alias dc='docker-compose'
+alias dc-up='docker-compose up -d && docker-compose logs'
+alias dc-down='docker-compose down'
+alias dc-start='docker-compose start'
+alias dc-stop='docker-compose stop'
+alias dc-remove='docker rmi -f $(docker images --filter "dangling=true" -: --no-trunc)'
+alias dce='docker exec -ti -u $UID'
+alias dc-upb='docker-compose up -d --build && docker-compose logs'
+alias dc-prune='docker image prune -a \
+                && docker container prune \
+                && docker volume prune \
+                && docker network prune'
+
+# Go
+alias got='gotest -v -count=1'
+alias gota='gotest -v -count=1 ./...'
+alias gottt='clear && gotest -v -count=1 ./...'
+alias gofmt='gofmt -s -w .'
+alias gomt='go mod tidy'
+alias gowork="go work use -r ."
+
+# Cool terminal aliases
+alias pretty-json='jq --color-output .'
+alias ma='cmatrix -a'
+# Genera

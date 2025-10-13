@@ -1,0 +1,7 @@
+os:
+  edit: "~/dots/scripts/nvim-tmux-edit.sh {{filename}}"
+  EditAtLine: "~/dots/scripts/nvim-tmux-edit.sh +{{line}} -- {{filename}}"
+keybinding:
+  commits:
+    moveDownCommit: <c-d>
+    moveUpCommit: <c-u>

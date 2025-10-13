@@ -1,0 +1,39 @@
+# Core colors
+background = #1a1e20
+foreground = #c1c3c4
+
+# Cursor
+cursor-color = #c1c3c4
+cursor-text = #1a1e20
+
+# Selection
+selection-background = #202d3a
+selection-foreground = #c1c3c4
+
+# If you want bold to use the bright palette entries
+bold-is-bright = true
+
+# 16-color palette (0–15)
+palette = 0=#0D1117
+palette = 8=#202d3a
+
+palette = 1=#ff6865
+palette = 9=#ea770d
+
+palette = 2=#06ea61
+palette = 10=#06ea61
+
+palette = 3=#c9d364
+palette = 11=#e2be7d
+
+palette = 4=#03aeff
+palette = 12=#03aeff
+
+palette = 5=#ea5ce2
+palette = 13=#ff84ff
+
+palette = 6=#42fff9
+palette = 14=#42fff9
+
+palette = 7=#c1c3c4
+palette = 15=#f1f3f4
