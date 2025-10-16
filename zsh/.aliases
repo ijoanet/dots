@@ -31,12 +31,11 @@ alias coding='cd $CODING_DIR'
 alias notes="nvim $CODING_DIR/notes"
 
 # APPS / PACKAGES
-alias n='tmux_goto_nvim'
-alias ya='tmux_goto_yazi'
-alias lg='tmux_goto_lazygit'
-# TODO: Add lazydocker tmux window
+alias n='nvim'
+alias ya='yazi'
+alias lg='lagygit'
 alias ld='lazydocker'
-alias oc='tmux_goto_opencode'
+alias oc='opencode'
 alias bat='bat --color=always --theme=base16 --style=header,grid --line-range :300'
 
 # Tmux
