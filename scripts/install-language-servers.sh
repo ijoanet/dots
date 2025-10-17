@@ -7,6 +7,10 @@ set -e
 
 echo "🚀 Installing Language Servers..."
 
+echo "📘 Installing TypeScript Language Server..."
+curl -fsSL https://bun.sh/install | bash
+bun install -g typescript typescript-language-server
+
 echo "📝 Installing Bash Language Server..."
 bun i -g bash-language-server
 
@@ -34,10 +38,6 @@ curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh && rustup compone
 
 echo "🏗️ Installing Terraform Language Servers..."
 brew install terraform terragrunt hashicorp/tap/terraform-ls tflint
-
-echo "📘 Installing TypeScript Language Server..."
-curl -fsSL https://bun.sh/install | bash
-bun install -g typescript typescript-language-server
 
 echo "📄 Installing YAML Language Server..."
 npm i -g yaml-language-server
