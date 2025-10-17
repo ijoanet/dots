@@ -1,7 +1,6 @@
 #!/bin/bash
 
 # Language Server Installation Script
-# Auto-generated from LANGUAGE_SERVERS.md
 
 set -e
 
@@ -40,7 +39,7 @@ echo "🏗️ Installing Terraform Language Servers..."
 brew install terraform terragrunt hashicorp/tap/terraform-ls tflint
 
 echo "📄 Installing YAML Language Server..."
-npm i -g yaml-language-server
+bun i -g yaml-language-server
 
 echo "⚡ Installing EFM Language Server..."
 go install github.com/mattn/efm-langserver@latest
