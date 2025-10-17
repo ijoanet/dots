@@ -33,7 +33,7 @@ alias notes="nvim $CODING_DIR/notes"
 # APPS / PACKAGES
 alias n='nvim'
 alias ya='yazi'
-alias lg='lagygit'
+alias lg='lazygit'
 alias ld='lazydocker'
 alias oc='opencode'
 alias bat='bat --color=always --theme=base16 --style=header,grid --line-range :300'
