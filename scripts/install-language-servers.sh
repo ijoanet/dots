@@ -7,8 +7,9 @@ set -e
 echo "🚀 Installing Language Servers..."
 
 echo "📘 Installing TypeScript Language Server..."
+brew install node
 curl -fsSL https://bun.sh/install | bash
-bun install -g typescript typescript-language-server
+bun install -g typescript typescript-language-server npm
 
 echo "📝 Installing Bash Language Server..."
 bun i -g bash-language-server
