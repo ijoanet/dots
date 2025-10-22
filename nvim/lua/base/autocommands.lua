@@ -28,27 +28,12 @@ vim.api.nvim_create_autocmd("BufReadPost", {
 })
 
 -- Autosave
-vim.api.nvim_create_autocmd({ "CursorHold", "BufLeave" }, {
+vim.api.nvim_create_autocmd({"CursorHold", "CursorHoldI"}, {
   pattern = "*", -- All buffers
   callback = function()
     if vim.bo.modified and not vim.bo.readonly and vim.fn.filereadable(vim.fn.bufname("%")) ~= 0 then
       vim.cmd("silent update")
     end
-  end,
-})
-
-
--- Set cmdheight to 0 when not in use
-vim.api.nvim_create_autocmd("CmdlineEnter", {
-  callback = function()
-    vim.opt.cmdheight = 1
-  end,
-})
-
--- Set cmdheight back to 0 when leaving command line
-vim.api.nvim_create_autocmd("CmdlineLeave", {
-  callback = function()
-    vim.opt.cmdheight = 0
   end,
 })
 
