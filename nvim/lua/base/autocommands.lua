@@ -28,7 +28,7 @@ vim.api.nvim_create_autocmd("BufReadPost", {
 })
 
 -- Autosave
-vim.api.nvim_create_autocmd({"CursorHold", "CursorHoldI"}, {
+vim.api.nvim_create_autocmd({ "CursorHold" }, {
   pattern = "*", -- All buffers
   callback = function()
     if vim.bo.modified and not vim.bo.readonly and vim.fn.filereadable(vim.fn.bufname("%")) ~= 0 then
