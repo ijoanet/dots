@@ -343,10 +343,10 @@ snacks.setup({
 --
 -- MAPPINGS
 --
-vim.keymap.set("n", "<leader>ff", ":lua Snacks.picker.smart()<CR>")
+vim.keymap.set("n", "<leader>ff", ":lua Snacks.picker.files()<CR>")
 vim.keymap.set("n", "<leader>fw", ":lua Snacks.picker.grep()<CR>")
 vim.keymap.set("n", "<leader>fb", ":lua Snacks.picker.buffers()<CR>")
-vim.keymap.set("n", "<leader><space>", ":lua Snacks.picker.recent()<CR>")
+vim.keymap.set("n", "<leader><space>", ":lua Snacks.picker.smart()<CR>")
 vim.keymap.set("n", "<leader>fg", ":lua Snacks.picker.git_status()<CR>")
 vim.keymap.set("n", "<leader>fh", ":lua Snacks.picker.highlights()<CR>")
 vim.keymap.set("n", "<leader>fk", ':lua Snacks.picker.keymaps({ layout = { preset = "vertical" } })<CR>')

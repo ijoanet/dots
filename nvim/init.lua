@@ -21,7 +21,8 @@ require("base.commands")
 --
 -- UI: Nvim styling
 --
-require("ui.colorscheme")
+-- require("ui.colorscheme") -- Custom colorscheme setup
+require("ui.onedarkpro")
 require("ui.colorizer")
 
 --

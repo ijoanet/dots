@@ -37,7 +37,10 @@ echo "🦀 Installing Rust Language Server..."
 curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh && rustup component add rust-analyzer rustfmt
 
 echo "🏗️ Installing Terraform Language Servers..."
-brew install terraform terragrunt hashicorp/tap/terraform-ls tflint
+brew tap hashicorp/tap
+brew install hashicorp/tap/terraform
+# brew install hashicorp/tap/terraform-ls
+brew install terragrunt tflint terraform-lsp
 
 echo "📄 Installing YAML Language Server..."
 bun i -g yaml-language-server

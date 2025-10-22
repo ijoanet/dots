@@ -16,6 +16,10 @@
       "rev": "42fc28ba",
       "src": "https://github.com/nvim-treesitter/nvim-treesitter"
     },
+    "onedarkpro.nvim": {
+      "rev": "eeac884",
+      "src": "https://github.com/olimorris/onedarkpro.nvim"
+    },
     "snacks.nvim": {
       "rev": "dae80fb",
       "src": "https://github.com/folke/snacks.nvim"
