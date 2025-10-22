@@ -24,7 +24,7 @@ echo "🐹 Installing Go Language Servers..."
 brew install go
 go install golang.org/x/tools/gopls@latest
 go install github.com/nametake/golangci-lint-langserver@latest
-go install github.com/golangci/golangci-lint/cmd/golangci-lint@latest
+go install github.com/golangci/golangci-lint/v2/cmd/golangci-lint@latest
 go install github.com/rakyll/gotest@latest
 
 echo "🌐 Installing HTML/CSS/JSON Language Server..."
