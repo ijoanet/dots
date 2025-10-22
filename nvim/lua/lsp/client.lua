@@ -27,7 +27,8 @@ vim.lsp.enable({
   "rust_analyzer",
   -- infra
   "docker_language_server",
-  "terraformls",
+  -- "terraformls",
+  "terraform_lsp",
   "tflint",
   -- linters/formatters
   "efm",
