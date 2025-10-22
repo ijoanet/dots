@@ -7,22 +7,9 @@ vim.diagnostic.config({
   signs = false,
   virtual_text = {
     -- Severity filter (optional: show warnings and above)
-    -- severity = { min = vim.diagnostic.severity.WARN },
+    severity = { min = vim.diagnostic.severity.WARN },
     -- Custom prefix function for severity signs
-    -- prefix = function(diagnostic)
-    --   if diagnostic.severity == vim.diagnostic.severity.ERROR then
-    --     return " "
-    --   elseif diagnostic.severity == vim.diagnostic.severity.WARN then
-    --     return " "
-    --   elseif diagnostic.severity == vim.diagnostic.severity.INFO then
-    --     return " "
-    --   else -- HINT
-    --     return " "
-    --   end
-    -- end,
-    prefix = "",
-    -- Show diagnostics as icons
-    format = function(diagnostic)
+    prefix = function(diagnostic)
       if diagnostic.severity == vim.diagnostic.severity.ERROR then
         return " "
       elseif diagnostic.severity == vim.diagnostic.severity.WARN then
@@ -33,6 +20,19 @@ vim.diagnostic.config({
         return " "
       end
     end,
+    -- prefix = "",
+    -- Show diagnostics as icons
+    -- format = function(diagnostic)
+    --   if diagnostic.severity == vim.diagnostic.severity.ERROR then
+    --     return " "
+    --   elseif diagnostic.severity == vim.diagnostic.severity.WARN then
+    --     return " "
+    --   elseif diagnostic.severity == vim.diagnostic.severity.INFO then
+    --     return " "
+    --   else -- HINT
+    --     return " "
+    --   end
+    -- end,
     -- Suppress the full message, showing only the prefix icon
     -- format = function() return nil end,
     -- Optional: spacing before the text
