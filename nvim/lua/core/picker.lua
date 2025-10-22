@@ -14,34 +14,41 @@ end
 -- SETUP
 --
 snacks.setup({
+
   picker = {
-    enabled = true,
     prompt = " ",
     sources = {},
     focus = "input",
+    show_delay = 1000,
+    limit_live = 10000,
     layouts = {
-      default = { -- Or use a custom layout name like "ivy" or "vertical"
+      default = {
         layout = {
-          backdrop = false, -- Disables the backdrop overlay
-          width = 1,
-          height = 0.9,
-          box = "horizontal",
+          backdrop = false,
         },
       },
     },
+    layout = {
+      cycle = true,
+      --- Use the default layout or vertical if the window is too narrow
+      -- preset = function()
+      --   return vim.o.columns >= 120 and "default" or "vertical"
+      -- end,
+      preset = "ivy_split",
+    },
     ---@class snacks.picker.matcher.Config
     matcher = {
-      fuzzy = true, -- use fuzzy matching
-      smartcase = true, -- use smartcase
-      ignorecase = true, -- use ignorecase
-      sort_empty = false, -- sort results when the search string is empty
+      fuzzy = true,          -- use fuzzy matching
+      smartcase = true,      -- use smartcase
+      ignorecase = true,     -- use ignorecase
+      sort_empty = false,    -- sort results when the search string is empty
       filename_bonus = true, -- give bonus for matching file names (last part of the path)
-      file_pos = true, -- support patterns like `file:line:col` and `file:line`
+      file_pos = true,       -- support patterns like `file:line:col` and `file:line`
       -- the bonusses below, possibly require string concatenation and path normalization,
       -- so this can have a performance impact for large lists and increase memory usage
-      cwd_bonus = true, -- give bonus for matching files in the cwd
-      frecency = true, -- frecency bonus
-      history_bonus = true, -- give more weight to chronological order
+      cwd_bonus = false,     -- give bonus for matching files in the cwd
+      frecency = false,      -- frecency bonus
+      history_bonus = false, -- give more weight to chronological order
     },
     sort = {
       -- default sort is by score, text length and index
@@ -55,46 +62,51 @@ snacks.setup({
       },
       file = {
         filename_first = false, -- display filename before the file path
-        truncate = 40, -- truncate the file path to (roughly) this length
+        --- * left: truncate the beginning of the path
+        --- * center: truncate the middle of the path
+        --- * right: truncate the end of the path
+        ---@type "left"|"center"|"right"
+        truncate = "left",
+        min_width = 20,        -- minimum length of the truncated path
         filename_only = false, -- only show the filename
-        icon_width = 2, -- width of the icon (in characters)
-        git_status_hl = true, -- use the git status highlight group for the filename
+        icon_width = 2,        -- width of the icon (in characters)
+        git_status_hl = true,  -- use the git status highlight group for the filename
       },
       selected = {
         show_always = false, -- only show the selected column when there are multiple selections
-        unselected = false, -- use the unselected icon for unselected items
+        unselected = true,   -- use the unselected icon for unselected items
       },
       severity = {
-        icons = true, -- show severity icons
+        icons = true,  -- show severity icons
         level = false, -- show severity level
         ---@type "left"|"right"
-        pos = "left", -- position of the diagnostics
+        pos = "left",  -- position of the diagnostics
       },
     },
     ---@class snacks.picker.previewers.Config
     previewers = {
       diff = {
-        builtin = true, -- use Neovim for previewing diffs (true) or use an external tool (false)
+        builtin = true,    -- use Neovim for previewing diffs (true) or use an external tool (false)
         cmd = { "delta" }, -- example to show a diff with delta
       },
       git = {
         builtin = true, -- use Neovim for previewing git output (true) or use git (false)
-        args = {}, -- additional arguments passed to the git command. Useful to set pager options usin `-c ...`
+        args = {},      -- additional arguments passed to the git command. Useful to set pager options usin `-c ...`
       },
       file = {
         max_size = 1024 * 1024, -- 1MB
-        max_line_length = 500, -- max line length
+        max_line_length = 500,  -- max line length
         ft = nil, ---@type string? filetype for highlighting. Use `nil` for auto detect
       },
       man_pager = nil, ---@type string? MANPAGER env to use for `man` preview
     },
     ---@class snacks.picker.jump.Config
     jump = {
-      jumplist = true, -- save the current position in the jumplist
-      tagstack = false, -- save the current position in the tagstack
+      jumplist = true,   -- save the current position in the jumplist
+      tagstack = false,  -- save the current position in the tagstack
       reuse_win = false, -- reuse an existing window if the buffer is already open
-      close = true, -- close the picker when jumping/editing to a location (defaults to true)
-      match = false, -- jump to the first match position. (useful for `lines`)
+      close = true,      -- close the picker when jumping/editing to a location (defaults to true)
+      match = false,     -- jump to the first match position. (useful for `lines`)
     },
     toggles = {
       follow = "f",
@@ -126,6 +138,7 @@ snacks.setup({
           ["<a-f>"] = { "toggle_follow", mode = { "i", "n" } },
           ["<a-h>"] = { "toggle_hidden", mode = { "i", "n" } },
           ["<a-i>"] = { "toggle_ignored", mode = { "i", "n" } },
+          ["<a-r>"] = { "toggle_regex", mode = { "i", "n" } },
           ["<a-m>"] = { "toggle_maximize", mode = { "i", "n" } },
           ["<a-p>"] = { "toggle_preview", mode = { "i", "n" } },
           ["<a-w>"] = { "cycle_win", mode = { "i", "n" } },
@@ -193,6 +206,7 @@ snacks.setup({
           ["<c-n>"] = "list_down",
           ["<c-p>"] = "list_up",
           ["<c-q>"] = "qflist",
+          ["<c-g>"] = "print_path",
           ["<c-s>"] = "edit_split",
           ["<c-t>"] = "tab",
           ["<c-u>"] = "list_scroll_up",
@@ -233,91 +247,91 @@ snacks.setup({
         enabled = true, -- show file icons
         dir = "󰉋 ",
         dir_open = "󰝰 ",
-        file = "󰈔 ",
+        file = "󰈔 "
       },
       keymaps = {
-        nowait = "󰓅 ",
+        nowait = "󰓅 "
       },
       tree = {
         vertical = "│ ",
-        middle = "├╴",
-        last = "└╴",
+        middle   = "├╴",
+        last     = "└╴",
       },
       undo = {
         saved = " ",
       },
       ui = {
-        live = "󰐰 ",
-        hidden = "h",
-        ignored = "i",
-        follow = "f",
-        selected = "● ",
+        live       = "󰐰 ",
+        hidden     = "h",
+        ignored    = "i",
+        follow     = "f",
+        selected   = "● ",
         unselected = "○ ",
         -- selected = " ",
       },
       git = {
-        enabled = true, -- show git icons
-        commit = "󰜘 ", -- used by git log
-        staged = "●", -- staged changes. always overrides the type icons
-        added = "",
-        deleted = "",
-        ignored = " ",
-        modified = "○",
-        renamed = "",
-        unmerged = " ",
+        enabled   = true, -- show git icons
+        commit    = "󰜘 ", -- used by git log
+        staged    = "●", -- staged changes. always overrides the type icons
+        added     = "",
+        deleted   = "",
+        ignored   = " ",
+        modified  = "○",
+        renamed   = "",
+        unmerged  = " ",
         untracked = "?",
       },
       diagnostics = {
         Error = " ",
-        Warn = " ",
-        Hint = " ",
-        Info = " ",
+        Warn  = " ",
+        Hint  = " ",
+        Info  = " ",
       },
       lsp = {
         unavailable = "",
         enabled = " ",
         disabled = " ",
-        attached = "󰖩 ",
+        attached = "󰖩 "
       },
       kinds = {
-        Array = " ",
-        Boolean = "󰨙 ",
-        Class = " ",
-        Color = " ",
-        Control = " ",
-        Collapsed = " ",
-        Constant = "󰏿 ",
-        Constructor = " ",
-        Copilot = " ",
-        Enum = " ",
-        EnumMember = " ",
-        Event = " ",
-        Field = " ",
-        File = " ",
-        Folder = " ",
-        Function = "󰊕 ",
-        Interface = " ",
-        Key = " ",
-        Keyword = " ",
-        Method = "󰊕 ",
-        Module = " ",
-        Namespace = "󰦮 ",
-        Null = " ",
-        Number = "󰎠 ",
-        Object = " ",
-        Operator = " ",
-        Package = " ",
-        Property = " ",
-        Reference = " ",
-        Snippet = "󱄽 ",
-        String = " ",
-        Struct = "󰆼 ",
-        Text = " ",
+        Array         = " ",
+        Boolean       = "󰨙 ",
+        Class         = " ",
+        Color         = " ",
+        Control       = " ",
+        Collapsed     = " ",
+        Constant      = "󰏿 ",
+        Constructor   = " ",
+        Copilot       = " ",
+        Enum          = " ",
+        EnumMember    = " ",
+        Event         = " ",
+        Field         = " ",
+        File          = " ",
+        Folder        = " ",
+        Function      = "󰊕 ",
+        Interface     = " ",
+        Key           = " ",
+        Keyword       = " ",
+        Method        = "󰊕 ",
+        Module        = " ",
+        Namespace     = "󰦮 ",
+        Null          = " ",
+        Number        = "󰎠 ",
+        Object        = " ",
+        Operator      = " ",
+        Package       = " ",
+        Property      = " ",
+        Reference     = " ",
+        Snippet       = "󱄽 ",
+        String        = " ",
+        Struct        = "󰆼 ",
+        Text          = " ",
         TypeParameter = " ",
-        Unit = " ",
-        Unknown = " ",
-        Value = " ",
-        Variable = "󰀫 ",
+        Unit          = " ",
+        Unknown       = " ",
+        Value         = " ",
+        Variable      = "󰀫 ",
       },
     },
     ---@class snacks.picker.db.Config
@@ -329,12 +343,12 @@ snacks.setup({
     },
     ---@class snacks.picker.debug
     debug = {
-      scores = false, -- show scores in the list
-      leaks = false, -- show when pickers don't get garbage collected
+      scores = false,   -- show scores in the list
+      leaks = false,    -- show when pickers don't get garbage collected
       explorer = false, -- show explorer debug info
-      files = false, -- show file debug info
-      grep = false, -- show file debug info
-      proc = false, -- show proc debug info
+      files = false,    -- show file debug info
+      grep = false,     -- show file debug info
+      proc = false,     -- show proc debug info
       extmarks = false, -- show extmarks errors
     },
   },

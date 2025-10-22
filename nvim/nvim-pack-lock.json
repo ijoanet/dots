@@ -1,7 +1,7 @@
 {
   "plugins": {
     "gitsigns.nvim": {
-      "rev": "1ee5c1f",
+      "rev": "20ad441",
       "src": "https://github.com/lewis6991/gitsigns.nvim"
     },
     "nvim-colorizer.lua": {
@@ -9,7 +9,7 @@
       "src": "https://github.com/catgoose/nvim-colorizer.lua"
     },
     "nvim-surround": {
-      "rev": "75de178",
+      "rev": "0cadeb0",
       "src": "https://github.com/kylechui/nvim-surround"
     },
     "nvim-treesitter": {
@@ -21,7 +21,7 @@
       "src": "https://github.com/olimorris/onedarkpro.nvim"
     },
     "snacks.nvim": {
-      "rev": "dae80fb",
+      "rev": "ee2314d",
       "src": "https://github.com/folke/snacks.nvim"
     },
     "tmux.nvim": {
