@@ -266,14 +266,14 @@ local function init_default_contexts()
     },
   }
   -- Debug: Confirm contexts were initialized
-  vim.notify(
-    string.format(
-      "Initialized %d contexts: %s",
-      vim.tbl_count(opencode_config.contexts),
-      table.concat(vim.tbl_keys(opencode_config.contexts), ", ")
-    ),
-    vim.log.levels.DEBUG
-  )
+  -- vim.notify(
+  --   string.format(
+  --     "Initialized %d contexts: %s",
+  --     vim.tbl_count(opencode_config.contexts),
+  --     table.concat(vim.tbl_keys(opencode_config.contexts), ", ")
+  --   ),
+  --   vim.log.levels.DEBUG
+  -- )
 end
 
 -- Helper: Send text to opencode tmux window
