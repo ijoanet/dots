@@ -1,12 +1,13 @@
 -- LSP client setup
 require("lsp.ui")
-require("lsp.completion")
+-- require("lsp.custom_completion")
+require('lsp.blink')
 require("lsp.commands")
 
 vim.lsp.enable({
   -- shell
   "bashls",
-  -- path, buffer and snippets
+  -- path, buffer and snippets (useful when not using blink.cmp)
   "basics_ls",
   -- lua
   "lua_ls",
@@ -75,60 +76,60 @@ vim.api.nvim_create_autocmd("LspAttach", {
 
     -- Go to definition
     if client:supports_method('textDocument/definition') then
-      -- vim.keymap.set('n', 'gd', ':lua Snacks.picker.lsp_definitions()<CR>',
-      --   { buffer = args.buf, desc = 'Peek definition' })
-      vim.keymap.set('n', 'gd', vim.lsp.buf.definition, { buffer = args.buf, desc = 'Go to definition' })
+      vim.keymap.set('n', 'gd', ':lua Snacks.picker.lsp_definitions()<CR>',
+        { buffer = args.buf, desc = 'Peek definition' })
+      -- vim.keymap.set('n', 'gd', vim.lsp.buf.definition, { buffer = args.buf, desc = 'Go to definition' })
     end
 
     -- Go to declaration
     if client:supports_method('textDocument/declaration') then
-      -- vim.keymap.set('n', '<leader>gd', ":lua Snacks.picker.lsp_declarations()<CR>",
-      --   { buffer = args.buf, desc = 'Peek declaration' })
+      vim.keymap.set('n', '<leader>gd', ":lua Snacks.picker.lsp_declarations()<CR>",
+        { buffer = args.buf, desc = 'Peek declaration' })
       vim.keymap.set('n', 'gD', vim.lsp.buf.declaration, { buffer = args.buf, desc = 'Go to declaration' })
     end
 
     -- References
     if client:supports_method('textDocument/references') then
-      -- vim.keymap.set('n', 'gr', ":lua Snacks.picker.lsp_references()<CR>",
-      --   { buffer = args.buf, desc = 'Peek references' })
-      vim.keymap.set('n', 'gr', vim.lsp.buf.references, { buffer = args.buf, desc = 'References' })
+      vim.keymap.set('n', 'gr', ":lua Snacks.picker.lsp_references()<CR>",
+        { buffer = args.buf, desc = 'Peek references' })
+      -- vim.keymap.set('n', 'gr', vim.lsp.buf.references, { buffer = args.buf, desc = 'References' })
     end
 
     -- Document symbols
     if client:supports_method('textDocument/documentSymbol') then
-      -- vim.keymap.set('n', '<leader>ds', ":lua Snacks.picker.lsp_symbols()<CR>",
-      --   { buffer = args.buf, desc = 'Peek document symbols' })
-      vim.keymap.set('n', '<leader>ds', vim.lsp.buf.document_symbol, { buffer = args.buf, desc = 'Document symbols' })
+      vim.keymap.set('n', '<leader>ds', ":lua Snacks.picker.lsp_symbols()<CR>",
+        { buffer = args.buf, desc = 'Peek document symbols' })
+      -- vim.keymap.set('n', '<leader>ds', vim.lsp.buf.document_symbol, { buffer = args.buf, desc = 'Document symbols' })
     end
 
     -- Workspace symbols
     if client:supports_method('workspace/symbol') then
-      -- vim.keymap.set('n', '<leader>ws', ":lua Snacks.picker.lsp_workspace_symbols()<CR>",
-      --   { buffer = args.buf, desc = 'Peek workspace symbols' })
-      vim.keymap.set('n', '<leader>ws', vim.lsp.buf.workspace_symbol,
-        { buffer = args.buf, desc = 'Workspace symbols' })
+      vim.keymap.set('n', '<leader>ws', ":lua Snacks.picker.lsp_workspace_symbols()<CR>",
+        { buffer = args.buf, desc = 'Peek workspace symbols' })
+      -- vim.keymap.set('n', '<leader>ws', vim.lsp.buf.workspace_symbol,
+      --   { buffer = args.buf, desc = 'Workspace symbols' })
     end
 
     if client:supports_method('workspace/diagnostic') then
-      -- vim.keymap.set('n', '<leader>ws', ":lua Snacks.picker.lsp_workspace_symbols()<CR>",
-      --   { buffer = args.buf, desc = 'Peek workspace symbols' })
-      vim.keymap.set('n', '<leader>wd', vim.lsp.buf.workspace_diagnostics,
-        { buffer = args.buf, desc = 'Workspace diagnostics' })
+      vim.keymap.set('n', '<leader>ws', ":lua Snacks.picker.lsp_workspace_symbols()<CR>",
+        { buffer = args.buf, desc = 'Peek workspace symbols' })
+      -- vim.keymap.set('n', '<leader>wd', vim.lsp.buf.workspace_diagnostics,
+      --   { buffer = args.buf, desc = 'Workspace diagnostics' })
     end
 
 
     -- Type definition
     if client:supports_method('textDocument/typeDefinition') then
-      -- vim.keymap.set('n', 'gt', ":lua Snacks.picker.lsp_type_definitions()<CR>",
-      --   { buffer = args.buf, desc = 'Peek type definition' })
-      vim.keymap.set('n', 'gt', vim.lsp.buf.type_definition, { buffer = args.buf, desc = 'Type definition' })
+      vim.keymap.set('n', 'gt', ":lua Snacks.picker.lsp_type_definitions()<CR>",
+        { buffer = args.buf, desc = 'Peek type definition' })
+      -- vim.keymap.set('n', 'gt', vim.lsp.buf.type_definition, { buffer = args.buf, desc = 'Type definition' })
     end
 
     -- Implementation
     if client:supports_method('textDocument/implementation') then
-      -- vim.keymap.set('n', 'gi', ":lua Snacks.picker.lsp_implementations()<CR>",
-      --   { buffer = args.buf, desc = 'Peek implementation' })
-      vim.keymap.set('n', 'gi', vim.lsp.buf.implementation, { buffer = args.buf, desc = 'Implementation' })
+      vim.keymap.set('n', 'gi', ":lua Snacks.picker.lsp_implementations()<CR>",
+        { buffer = args.buf, desc = 'Peek implementation' })
+      -- vim.keymap.set('n', 'gi', vim.lsp.buf.implementation, { buffer = args.buf, desc = 'Implementation' })
     end
 
     -- Diagnostic navigation (using vim.diagnostic.jump; buffer-local for LSP buffers)

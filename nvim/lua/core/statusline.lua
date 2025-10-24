@@ -176,17 +176,17 @@ end
 local mode_colors = {
   n = colors.red,
   i = colors.green,
-  v = colors.magenta,
-  V = colors.magenta,
-  ["V-BLOCK"] = colors.magenta,
-  c = colors.bright_black,
+  v = colors.purple,
+  V = colors.purple,
+  ["V-BLOCK"] = colors.purple,
+  c = colors.light_black,
   s = colors.yellow,
   S = colors.yellow,
   ["S-BLOCK"] = colors.yellow,
   r = colors.blue,
   R = colors.blue,
-  ["!"] = colors.bright_black,
-  t = colors.bright_black,
+  ["!"] = colors.light_black,
+  t = colors.light_black,
 }
 
 -- Mode name mapping

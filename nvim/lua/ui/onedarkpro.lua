@@ -104,8 +104,12 @@ onedarkpro.setup({
       bg = '${light_black}',
     },
     PmenuSel = {
-      fg = '${purple}',
-      bg = '${light_gray}',
+      fg = '${fg}',
+      bg = '${purple}',
+    },
+    PMenuThumb = {
+      fg = '${green}',
+      bg = '${green}',
     },
 
     -- LSP
@@ -183,7 +187,18 @@ onedarkpro.setup({
     CopilotSuggestion = {
       fg = '${comment}',
     },
-  },            -- Override default highlight and/or filetype groups
+
+    -- Blink
+    BlinkCmpDocBorder = {
+      fg = '${green}',
+      bg = '${bg}',
+    },
+    BlinkCmpSignatureHelpBorder = {
+      fg = '${green}',
+      bg = '${bg}',
+    },
+  },
+  -- Override default highlight and/or filetype groups
   filetypes = { -- Override which filetype highlight groups are loaded
   },
   plugins = {   -- Override which plugin highlight groups are loaded
