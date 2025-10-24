@@ -15,8 +15,8 @@ blink.setup({
     ['<C-e>'] = { 'hide', 'fallback' },
     ['<CR>'] = { 'accept', 'fallback' },
 
-    ['<Tab>'] = { 'select_next', 'snippet_forward', 'fallback' },
-    ['<S-Tab>'] = { 'select_prev', 'snippet_backward', 'fallback' },
+    ['<Tab>'] = { 'snippet_forward', 'select_next', 'fallback' },
+    ['<S-Tab>'] = { 'snippet_backward', 'select_prev', 'fallback' },
 
     ['<Up>'] = { 'select_prev', 'fallback' },
     ['<Down>'] = { 'select_next', 'fallback' },
@@ -55,23 +55,32 @@ blink.setup({
     },
     ghost_text = { enabled = false }, -- Disabled like in your config
   },
-
   -- Sources configuration - equivalent to your nvim-cmp sources
   sources = {
-    default = { 'lsp', 'omni' },
+    default = { 'lsp', 'buffer', 'snippets', 'path' },
     per_filetype = {
       -- Add specific sources for specific filetypes if needed
     },
     providers = {
       -- Built-in providers are automatically configured
       -- You can customize them here if needed
-      -- buffer = {
-      --   name = 'Buffer',
-      --   module = 'blink.cmp.sources.buffer',
-      --   opts = {
-      --     -- Buffer-specific options
-      --   },
-      -- },
+      buffer = {
+        opts = {
+          -- get all buffers, even ones like neo-tree
+          -- get_bufnrs = vim.api.nvim_list_bufs
+          -- or (recommended) filter to only "normal" buffers
+          get_bufnrs = function()
+            return vim.tbl_filter(function(bufnr)
+              return vim.bo[bufnr].buftype == ''
+            end, vim.api.nvim_list_bufs())
+          end
+        }
+      },
+      snippets = {
+        opts = {
+          friendly_snippets = true, -- default
+        }
+      }
     }
   },
   -- Signature help configuration

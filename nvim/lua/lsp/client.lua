@@ -8,7 +8,7 @@ vim.lsp.enable({
   -- shell
   "bashls",
   -- path, buffer and snippets (useful when not using blink.cmp)
-  "basics_ls",
+  -- "basics_ls",
   -- lua
   "lua_ls",
   -- "stylua", -- IDK but likes to breat my code lol
