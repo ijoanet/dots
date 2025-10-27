@@ -57,3 +57,10 @@ vim.keymap.set("n", "<S-x>", "<cmd> bd! <CR>")
 -- move between tabs
 vim.keymap.set("n", "<TAB>", ":bnext <CR>")
 vim.keymap.set("n", "<S-TAB>", ":bprev <CR>")
+
+
+vim.keymap.set("n", "<C-Space>y", function()
+  local current_file = vim.fn.expand("%:p")
+  local current_dir = vim.fn.fnamemodify(current_file, ":h")
+  vim.fn.system("tmux new-window -c " .. vim.fn.shellescape(current_dir) .. " yazi")
+end, { desc = "Open yazi in current buffer directory" })
