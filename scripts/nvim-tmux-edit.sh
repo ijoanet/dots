@@ -90,8 +90,6 @@ if [ -n "$nvim_window" ]; then
     log "Switched to window $nvim_window"
 
     # Clear any pending command mode and get to normal mode
-    tmux send-keys -t "$nvim_window" 'C-c'
-    sleep 0.1
     tmux send-keys -t "$nvim_window" 'Escape'
     sleep 0.1
     log "Cleared command mode"
