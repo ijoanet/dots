@@ -123,4 +123,7 @@ return {
       })
     end, {})
   end,
+  env = {
+    TMPDIR = vim.fn.stdpath('cache') .. '/ts_ls',  -- Use Neovim's cache dir (~/.local/share/nvim/...), create if needed
+  },
 }
