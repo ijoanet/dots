@@ -27,8 +27,9 @@ alias rf='rm -Rf'
 alias dots='cd $DOTS_DIR'
 alias dwn='cd $HOME/Downloads'
 
+export 
 alias coding='cd $CODING_DIR'
-alias notes="nvim $CODING_DIR/notes"
+alias notes="cd $CODING_DIR/notes"
 
 # APPS / PACKAGES
 alias n='nvim'

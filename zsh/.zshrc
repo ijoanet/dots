@@ -175,7 +175,7 @@ export NVM_DIR="$HOME/.nvm"
 
 
 # Directories
-export CODE_DIR="$HOME/coding"
+export CODING_DIR="$HOME/coding"
 export DOTS_DIR="$HOME/dots"
 export CONFIG_DIR="$HOME/.config"
 export XDG_CONFIG_HOME="$CONFIG_DIR"
@@ -188,7 +188,7 @@ export PATH="$HOME/.cargo/bin:$PATH" # Rust
 export PATH="$BUN_INSTALL/bin:$PATH" # Bun
 export PATH="$HOME/.opencode/bin:$PATH" # OpenCode
 export PATH="$HOME/.local/share/bob/nvim-bin:$PATH" # bob (neovim)
-export PATH="$CODE_DIR:$PATH"
+export PATH="$CODING_DIR:$PATH"
 
 export TMPDIR="/tmp"
 
