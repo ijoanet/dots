@@ -31,7 +31,7 @@ snacks.setup({
     layout = {
       cycle = true,
       --- Use the default layout or vertical if the window is too narrow
-      -- preset = function()
+      -- preset = ":lua
       --   return vim.o.columns >= 120 and "default" or "vertical"
       -- end,
       preset = "ivy_split",
@@ -363,6 +363,14 @@ vim.keymap.set("n", "<leader>fb", ":lua Snacks.picker.buffers()<CR>", { silent =
 vim.keymap.set("n", "<leader><space>", ":lua Snacks.picker.smart()<CR>", { silent = true })
 vim.keymap.set("n", "<leader>fg", ":lua Snacks.picker.git_status()<CR>", { silent = true })
 vim.keymap.set("n", "<leader>fh", ":lua Snacks.picker.highlights()<CR>", { silent = true })
-vim.keymap.set("n", "<leader>fk", ':lua Snacks.picker.keymaps({ layout = { preset = "vertical" } })<CR>', { silent = true })
+vim.keymap.set("n", "<leader>fk", ':lua Snacks.picker.keymaps({ layout = { preset = "vertical" } })<CR>',
+  { silent = true })
 vim.keymap.set("n", "<leader>fm", ":lua Snacks.picker.marks()<CR>", { silent = true })
 vim.keymap.set("n", "<leader>ft", ":lua Snacks.picker.treesitter()<CR>", { silent = true })
+vim.keymap.set("n", "<leader>fi", ":lua Snacks.picker.gh_issue()<CR>", { desc = "GitHub Issues (open)", silent = true })
+vim.keymap.set("n", "<leader>fI", ":lua Snacks.picker.gh_issue({ state = 'all' })<CR>",
+  { desc = "GitHub Issues (all)", silent = true })
+vim.keymap.set("n", "<leader>fp", ":lua Snacks.picker.gh_pr()<CR>",
+  { desc = "GitHub Pull Requests (open)", silent = true })
+vim.keymap.set("n", "<leader>fP", ":lua Snacks.picker.gh_pr({ state = 'all' })<CR>",
+  { desc = "GitHub Pull Requests (all)", silent = true })

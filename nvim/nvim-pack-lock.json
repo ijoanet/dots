@@ -10,11 +10,11 @@
       "src": "https://github.com/lewis6991/gitsigns.nvim"
     },
     "nvim-colorizer.lua": {
-      "rev": "51cf7c9",
+      "rev": "81e676d",
       "src": "https://github.com/catgoose/nvim-colorizer.lua"
     },
     "nvim-surround": {
-      "rev": "0cadeb0",
+      "rev": "fcfa7e0",
       "src": "https://github.com/kylechui/nvim-surround"
     },
     "nvim-treesitter": {
@@ -26,7 +26,7 @@
       "src": "https://github.com/olimorris/onedarkpro.nvim"
     },
     "snacks.nvim": {
-      "rev": "4d9666e",
+      "rev": "dec29f5",
       "src": "https://github.com/folke/snacks.nvim"
     },
     "tmux.nvim": {
