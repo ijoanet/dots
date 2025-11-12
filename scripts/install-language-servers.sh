@@ -8,14 +8,14 @@ echo "🚀 Installing Language Servers..."
 
 echo "📘 Installing TypeScript Language Server..."
 brew install node
-curl -fsSL https://bun.sh/install | bash
-bun install -g typescript typescript-language-server npm
+npm install -g npm
+npm install -g typescript typescript-language-server
 
 echo "📝 Installing Bash Language Server..."
-bun i -g bash-language-server
+npm i -g bash-language-server
 
 echo "🤖 Installing Copilot Language Server..."
-bun i -g @github/copilot-language-server
+npm i -g @github/copilot-language-server
 
 echo "🐳 Installing Docker Language Server..."
 go install github.com/docker/docker-language-server/cmd/docker-language-server@latest
@@ -28,7 +28,7 @@ go install github.com/golangci/golangci-lint/v2/cmd/golangci-lint@latest
 go install github.com/rakyll/gotest@latest
 
 echo "🌐 Installing HTML/CSS/JSON Language Server..."
-bun i -g vscode-langservers-extracted css-variables-language-server cssmodules-language-server
+npm i -g vscode-langservers-extracted css-variables-language-server cssmodules-language-server
 
 echo "🌙 Installing Lua Language Servers..."
 brew install lua-language-server stylua
@@ -43,12 +43,12 @@ brew install hashicorp/tap/terraform
 brew install terragrunt tflint terraform-lsp
 
 echo "📄 Installing YAML Language Server..."
-bun i -g yaml-language-server
+npm i -g yaml-language-server
 
 echo "⚡ Installing EFM Language Server..."
 go install github.com/mattn/efm-langserver@latest
 
 echo "🔧 Installing Basics Language Server..."
-bun install -g basics-language-server
+npm install -g basics-language-server
 
 echo "✅ All language servers installed successfully!"

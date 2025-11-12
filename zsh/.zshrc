@@ -165,8 +165,14 @@ export GOPATH=$HOME/go
 export GOBIN=$GOPATH/bin
 
 # Bun
-[ -s "$HOME/.bun/_bun" ] && source "$HOME/.bun/_bun"
-export BUN_INSTALL="$HOME/.bun"
+# [ -s "$HOME/.bun/_bun" ] && source "$HOME/.bun/_bun"
+# export BUN_INSTALL="$HOME/.bun"
+
+# nvm
+export NVM_DIR="$HOME/.nvm"
+  [ -s "/opt/homebrew/opt/nvm/nvm.sh" ] && \. "/opt/homebrew/opt/nvm/nvm.sh"  # This loads nvm
+  [ -s "/opt/homebrew/opt/nvm/etc/bash_completion.d/nvm" ] && \. "/opt/homebrew/opt/nvm/etc/bash_completion.d/nvm"  # This loads nvm bash_completion
+
 
 # Directories
 export CODE_DIR="$HOME/coding"
@@ -184,6 +190,7 @@ export PATH="$HOME/.opencode/bin:$PATH" # OpenCode
 export PATH="$HOME/.local/share/bob/nvim-bin:$PATH" # bob (neovim)
 export PATH="$CODE_DIR:$PATH"
 
+export TMPDIR="/tmp"
 
 # --------------------------- #
 #          ALIASES
