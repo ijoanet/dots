@@ -32,7 +32,7 @@ ln -s $HOME/dots/zsh/.zshrc $HOME/
 
 ## Install Yazi
 ```bash
-brew install yazi ffmpeg sevenzip jq poppler fd ripgrep fzf zoxide resvg imagemagick font-symbols-only-nerd-font
+brew install yazi ffmpeg sevenzip jq poppler fd ripgrep fzf zoxide resvg imagemagick font-symbols-only-nerd-font ghostscript
 rm -Rf $HOME/.config/yazi
 ln -s $HOME/dots/yazi $HOME/.config/
 ```
@@ -99,7 +99,6 @@ rm -Rf markitdown
 
 ## Install Docker
 ```bash
-brew install docker
 brew install --cask docker
 open /Applications/Docker.app
 brew install jesseduffield/lazydocker/lazydocker
