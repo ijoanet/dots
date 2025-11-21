@@ -27,7 +27,6 @@ alias rf='rm -Rf'
 alias dots='cd $DOTS_DIR'
 alias dwn='cd $HOME/Downloads'
 
-export 
 alias coding='cd $CODING_DIR'
 alias notes="cd $CODING_DIR/notes"
 
