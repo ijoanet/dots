@@ -62,5 +62,10 @@ vim.keymap.set("n", "<S-TAB>", ":bprev <CR>", { desc = "Previous buffer", silent
 vim.keymap.set("n", "<C-Space>y", function()
   local current_file = vim.fn.expand("%:p")
   local current_dir = vim.fn.fnamemodify(current_file, ":h")
-  vim.fn.system("tmux new-window -c " .. vim.fn.shellescape(current_dir) .. " yazi")
+  
+  -- Close existing yazi window if it exists (ignore errors)
+  vim.fn.system("tmux kill-window -t yazi 2>/dev/null")
+  
+  -- Create new yazi window in current directory
+  vim.fn.system("tmux new-window -n yazi -c " .. vim.fn.shellescape(current_dir) .. " yazi")
 end, { desc = "Open yazi in current buffer directory", silent = true })
