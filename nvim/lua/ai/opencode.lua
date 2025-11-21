@@ -32,10 +32,18 @@ end
 -- Helper: Create or switch to opencode tmux window
 local function ensure_opencode_window()
   if not tmux_window_exists(opencode_config.tmux_window_name) then
-    -- Call tmux_goto_opencode zsh function to create the window
-    local result = vim.fn.system('zsh -c "source ~/.zshrc && tmux_goto_opencode"')
+    -- Check if we're inside tmux
+    local tmux_session = vim.fn.system("echo $TMUX")
+    if vim.v.shell_error ~= 0 or tmux_session == "" or tmux_session:match("^%s*$") then
+      vim.notify("Not running inside tmux session", vim.log.levels.ERROR)
+      return false, false
+    end
+    
+    -- Create new tmux window with opencode
+    local create_cmd = string.format("tmux new-window -n %s 'opencode -c'", opencode_config.tmux_window_name)
+    local result = vim.fn.system(create_cmd)
     if vim.v.shell_error ~= 0 then
-      vim.notify("Failed to create opencode tmux window", vim.log.levels.ERROR)
+      vim.notify("Failed to create opencode tmux window: " .. result, vim.log.levels.ERROR)
       return false, false
     end
     return true, true -- window exists, was newly created
@@ -144,23 +152,28 @@ local function init_default_contexts()
       end,
     },
     ["@selection"] = {
-      description = "Currently selected text",
+      description = "Currently selected text as file path and line range",
       value = function()
-        -- Save current register
-        local saved_reg = vim.fn.getreg('"')
-        local saved_regtype = vim.fn.getregtype('"')
+        local filepath = vim.fn.expand("%:p")
+        if not filepath or filepath == "" then
+          return "No file - unsaved buffer"
+        end
 
-        -- Yank current selection
-        vim.cmd('normal! "vy')
-        local selected_text = vim.fn.getreg("v")
-
-        -- Restore register
-        vim.fn.setreg('"', saved_reg, saved_regtype)
-
-        if selected_text and selected_text ~= "" then
-          return string.format("Selected text:\n```\n%s\n```", selected_text)
-        else
+        -- Get selection start and end positions
+        local start_pos = vim.fn.getpos("'<")
+        local end_pos = vim.fn.getpos("'>")
+        
+        if start_pos[2] == 0 or end_pos[2] == 0 then
           return "No text currently selected"
+        end
+
+        local start_line = start_pos[2]
+        local end_line = end_pos[2]
+        
+        if start_line == end_line then
+          return string.format("%s:%d", filepath, start_line)
+        else
+          return string.format("%s:%d-%d", filepath, start_line, end_line)
         end
       end,
     },
@@ -336,12 +349,33 @@ end
 
 -- Function to prompt for input and send selection to opencode (visual mode)
 local function ask_opencode_selection()
-  -- Save the selection by yanking to a temporary register
-  vim.cmd('normal! "zy')
-  local selected_text = vim.fn.getreg("z")
+  local filepath = vim.fn.expand("%:p")
+  if not filepath or filepath == "" then
+    vim.notify("No file available for selection reference", vim.log.levels.WARN)
+    return
+  end
 
+  -- Get selection start and end positions
+  local start_pos = vim.fn.getpos("'<")
+  local end_pos = vim.fn.getpos("'>")
+  
   -- Exit visual mode
   vim.cmd("normal! \\<Esc>")
+
+  if start_pos[2] == 0 or end_pos[2] == 0 then
+    vim.notify("No text currently selected", vim.log.levels.WARN)
+    return
+  end
+
+  local start_line = start_pos[2]
+  local end_line = end_pos[2]
+  
+  local line_reference
+  if start_line == end_line then
+    line_reference = string.format("%s:%d", filepath, start_line)
+  else
+    line_reference = string.format("%s:%d-%d", filepath, start_line, end_line)
+  end
 
   vim.ui.input({
     prompt = "OpenCode prompt (+ selection): ",
@@ -351,27 +385,29 @@ local function ask_opencode_selection()
       return
     end
 
-    local final_text
-    if selected_text and selected_text ~= "" then
-      final_text = input .. "\n\n```\n" .. selected_text .. "\n```"
-    else
-      final_text = input
-    end
-
+    local final_text = input .. "\n\nSelected code: " .. line_reference
     send_to_opencode_tmux(final_text)
   end)
 end
 
 -- Function to explain code near cursor
 local function explain_cursor()
-  local selected_text = nil
+  local filepath = vim.fn.expand("%:p")
+  if not filepath or filepath == "" then
+    vim.notify("No file available for explanation", vim.log.levels.WARN)
+    return
+  end
+
+  local start_line, end_line
   local mode = vim.fn.mode()
 
   -- Check if we're already in visual mode with a selection
   if mode == "v" or mode == "V" or mode == "\22" then
-    -- Save the existing selection
-    vim.cmd('normal! "zy')
-    selected_text = vim.fn.getreg("z")
+    -- Use existing selection
+    local start_pos = vim.fn.getpos("'<")
+    local end_pos = vim.fn.getpos("'>")
+    start_line = start_pos[2]
+    end_line = end_pos[2]
     vim.cmd("normal! \\<Esc>")
   else
     -- No existing selection, try to select a paragraph
@@ -386,8 +422,8 @@ local function explain_cursor()
 
     if start_pos[2] ~= end_pos[2] or math.abs(end_pos[3] - start_pos[3]) > 10 then
       -- Good paragraph selection, use it
-      vim.cmd('normal! "zy')
-      selected_text = vim.fn.getreg("z")
+      start_line = start_pos[2]
+      end_line = end_pos[2]
       vim.cmd("normal! \\<Esc>")
     else
       -- Paragraph selection was too small or failed, use 20 surrounding lines
@@ -395,19 +431,24 @@ local function explain_cursor()
       vim.cmd("normal! \\<Esc>")
 
       local line_num = original_pos[1]
-      local start_line = math.max(1, line_num - 10)
-      local end_line = math.min(vim.api.nvim_buf_line_count(0), line_num + 10)
-      local context_lines = vim.api.nvim_buf_get_lines(0, start_line - 1, end_line, false)
-      selected_text = table.concat(context_lines, "\n")
+      start_line = math.max(1, line_num - 10)
+      end_line = math.min(vim.api.nvim_buf_line_count(0), line_num + 10)
     end
   end
 
-  if not selected_text or selected_text == "" then
+  if not start_line or not end_line then
     vim.notify("No code to explain", vim.log.levels.WARN)
     return
   end
 
-  local prompt = "Explain this code and its context:\n\n```\n" .. selected_text .. "\n```"
+  local line_reference
+  if start_line == end_line then
+    line_reference = string.format("%s:%d", filepath, start_line)
+  else
+    line_reference = string.format("%s:%d-%d", filepath, start_line, end_line)
+  end
+
+  local prompt = "Explain this code and its context: " .. line_reference
   send_to_opencode_tmux(prompt)
 end
 
