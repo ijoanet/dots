@@ -159,10 +159,11 @@ local function init_default_contexts()
           return "No file - unsaved buffer"
         end
 
-        -- Get selection start and end positions
+        -- Get selection start and end positions using marks
         local start_pos = vim.fn.getpos("'<")
         local end_pos = vim.fn.getpos("'>")
         
+        -- Check if marks are valid (not at position 0)
         if start_pos[2] == 0 or end_pos[2] == 0 then
           return "No text currently selected"
         end
@@ -355,21 +356,45 @@ local function ask_opencode_selection()
     return
   end
 
-  -- Get selection start and end positions
-  local start_pos = vim.fn.getpos("'<")
-  local end_pos = vim.fn.getpos("'>")
+  -- Get current visual selection bounds while still in visual mode
+  local mode = vim.fn.mode()
+  local start_line, end_line
   
-  -- Exit visual mode
-  vim.cmd("normal! \\<Esc>")
+  if mode == 'v' or mode == 'V' or mode == '\22' then -- visual, line-visual, or block-visual
+    -- Get the start and end of current visual selection
+    local start_pos = vim.fn.getpos('v')  -- start of visual selection
+    local end_pos = vim.fn.getpos('.')    -- current cursor position (end of selection)
+    
+    start_line = start_pos[2]
+    end_line = end_pos[2]
+    
+    -- Ensure start_line <= end_line
+    if start_line > end_line then
+      start_line, end_line = end_line, start_line
+    end
+    
+    -- Exit visual mode
+    vim.cmd("normal! \\<Esc>")
+  else
+    -- Not in visual mode, try to use previous selection marks
+    vim.cmd("normal! \\<Esc>")
+    local start_pos = vim.fn.getpos("'<")
+    local end_pos = vim.fn.getpos("'>")
+    
+    if start_pos[2] == 0 or end_pos[2] == 0 then
+      vim.notify("No text currently selected", vim.log.levels.WARN)
+      return
+    end
+    
+    start_line = start_pos[2]
+    end_line = end_pos[2]
+  end
 
-  if start_pos[2] == 0 or end_pos[2] == 0 then
-    vim.notify("No text currently selected", vim.log.levels.WARN)
+  if not start_line or not end_line then
+    vim.notify("Unable to determine selection", vim.log.levels.WARN)
     return
   end
 
-  local start_line = start_pos[2]
-  local end_line = end_pos[2]
-  
   local line_reference
   if start_line == end_line then
     line_reference = string.format("%s:%d", filepath, start_line)
